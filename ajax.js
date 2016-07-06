@@ -1,40 +1,25 @@
-function ajax(url, fnSucc, fnFaild)
-{
+function ajax(url, fnSucc, fnFaild) {
 	//1.创建Ajax对象
-	if(window.XMLHttpRequest)
-	{
-		var oAjax=new XMLHttpRequest();
-	}
-	else
-	{
-		var oAjax=new ActiveXObject("Microsoft.XMLHTTP");
-	}
-	
-	//2.连接服务器（打开和服务器的连接）
-	oAjax.open('GET', url, true);
-	
-	
+	var oAjax = new XMLHttpRequest()
+
+	//2.连接服务器
+	oAjax.open('GET', url, true)
+
 	//3.发送
-	oAjax.send();
-	
+	oAjax.send()
+
 	//4.接收
-	oAjax.onreadystatechange=function ()
-	{
-		if(oAjax.readyState==4)
-		{
-			if(oAjax.status==200)
-			{
-				//alert('成功了：'+oAjax.responseText);
-				fnSucc(oAjax.responseText);
-			}
-			else
-			{
-				//alert('失败了');
-				if(fnFaild)
-				{
-					fnFaild();
+	oAjax.onreadystatechange = function() {
+		if (oAjax.readyState == 4) { 	//读取完成
+			if (oAjax.status == 200) {  //成功
+				//alert("成功)
+				fnSucc(oAjax.responseText)
+			} else {
+				//alert("失败："+oAjax.status) 	/*常为404错误*/
+				if (fnFaild) {
+					fnFaild(oAjax.status)
 				}
 			}
 		}
-	};
+	}
 }
